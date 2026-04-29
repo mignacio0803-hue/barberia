@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basty Barber</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#"><i class="bi bi-scissors"></i> Basty Barber</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#galeria">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#reserva">Reservar</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content text-center">
+            <h1>Basty Barber</h1>
+            <p>Precisión. Estilo. Actitud.</p>
+            <a href="#galeria" class="btn btn-accent mt-3">Ver estilos</a>
+        </div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="py-5 bg-secondary">
+        <div class="container">
+            <h2 class="text-center mb-4 text-gold">Nuestros Servicios</h2>
+            <div class="row text-center">
+                <div class="col-md-3">
+                    <i class="bi bi-scissors display-4 text-gold mb-3"></i>
+                    <h5>Cortes de Cabello</h5>
+                    <p>Estilos modernos y clásicos.</p>
+                </div>
+                <div class="col-md-3">
+                    <i class="bi bi-person-circle display-4 text-gold mb-3"></i>
+                    <h5>Afeitado y Barba</h5>
+                    <p>Cuidado profesional para tu barba.</p>
+                </div>
+                <div class="col-md-3">
+                    <i class="bi bi-droplet display-4 text-gold mb-3"></i>
+                    <h5>Lavado y Peinado</h5>
+                    <p>Productos premium para tu cabello.</p>
+                </div>
+                <div class="col-md-3">
+                    <i class="bi bi-star display-4 text-gold mb-3"></i>
+                    <h5>Tratamientos</h5>
+                    <p>Cuidado especializado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALERÍA -->
+    <section id="galeria" class="container my-5">
+        <h2 class="text-center mb-4">Nuestros Cortes</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <img src="img/corte1.jpeg" class="img-fluid corte">
+            </div>
+            <div class="col-md-4">
+                <img src="img/corte2.jpeg" class="img-fluid corte">
+            </div>
+            <div class="col-md-4">
+                <img src="img/corte3.jpeg" class="img-fluid corte">
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section id="reserva" class="container my-5">
+        <div class="card p-4 shadow-lg form-card">
+            <h2>Reserva tu hora</h2>
+
+            <form id="formReserva">
+                <input type="hidden" id="editIndex">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" id="nombre" class="form-control mb-2" placeholder="Nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" id="apellido" class="form-control mb-2" placeholder="Apellido" required>
+                    </div>
+                </div>
+
+                <input type="email" id="email" class="form-control mb-2" placeholder="Email" required>
+                <input type="tel" id="telefono" class="form-control mb-2" placeholder="Teléfono" required>
+
+                <select id="hora" class="form-control mb-2"></select>
+                <div id="errorHora" class="text-danger mb-2"></div>
+
+                <h5>Servicios</h5>
+
+                <div class="row">
+                    <div class="col-md-4"><input type="checkbox" class="servicio" value="Corte"> Corte</div>
+                    <div class="col-md-4"><input type="checkbox" class="servicio" value="Barba"> Barba</div>
+                    <div class="col-md-4"><input type="checkbox" class="servicio" value="Cejas"> Cejas</div>
+                    <div class="col-md-4"><input type="checkbox" class="servicio" value="Lavado"> Lavado</div>
+                    <div class="col-md-4"><input type="checkbox" class="servicio" value="Peinado"> Peinado</div>
+                </div>
+
+                <button class="btn btn-accent mt-3 w-100">Guardar Reserva</button>
+            </form>
+        </div>
+
+        <!-- AGENDA -->
+        <div class="mt-5">
+            <h2>Agenda</h2>
+            <div id="listaReservas"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto" class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <h5><i class="bi bi-geo-alt"></i> Ubicación</h5>
+            <p>Calle Ficticia 123, Ciudad</p>
+            <h5><i class="bi bi-telephone"></i> Teléfono</h5>
+            <p>+56 9 1234 5678</p>
+            <h5><i class="bi bi-clock"></i> Horarios</h5>
+            <p>Lunes a Viernes: 9:00 - 19:00<br>Sábado: 8:00 - 16:00</p>
+            <p>&copy; 2024 Basty Barber. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
