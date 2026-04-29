@@ -94,17 +94,11 @@
             <form id="formReserva">
                 <input type="hidden" id="editIndex">
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="text" id="nombre" class="form-control mb-2" placeholder="Nombre" required>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" id="apellido" class="form-control mb-2" placeholder="Apellido" required>
-                    </div>
-                </div>
+                <input type="text" id="nombreCompleto" class="form-control mb-2" placeholder="Nombre completo" required>
 
                 <input type="email" id="email" class="form-control mb-2" placeholder="Email" required>
                 <input type="tel" id="telefono" class="form-control mb-2" placeholder="Teléfono" required>
+                <input type="date" id="fecha" class="form-control mb-2" required>
 
                 <select id="hora" class="form-control mb-2"></select>
                 <div id="errorHora" class="text-danger mb-2"></div>

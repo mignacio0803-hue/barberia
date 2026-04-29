@@ -16,10 +16,10 @@
 
 // ========== ELEMENTOS DEL DOM ==========
 const form = document.querySelector("#formReserva");
-const inputNombre = document.querySelector("#nombre");
-const inputApellido = document.querySelector("#apellido");
+const inputNombreCompleto = document.querySelector("#nombreCompleto");
 const inputEmail = document.querySelector("#email");
 const inputTelefono = document.querySelector("#telefono");
+const inputFecha = document.querySelector("#fecha");
 const horaSelect = document.querySelector("#hora");
 const listaReservas = document.querySelector("#listaReservas");
 const errorHora = document.querySelector("#errorHora");
@@ -82,13 +82,14 @@ const validarServicios = () => {
 };
 
 /**
- * Valida si una hora está duplicada (excluye el índice en edición)
+ * Valida si una hora está duplicada en la misma fecha (excluye el índice en edición)
+ * @param {string} fecha - Fecha a validar
  * @param {string} hora - Hora a validar
  * @param {number|null} indexEdit - Índice del registro en edición
- * @returns {boolean} true si la hora está ocupada
+ * @returns {boolean} true si la hora está ocupada en esa fecha
  */
-const validarHoraDuplicada = (hora, indexEdit = null) => {
-    return reservas.some((r, i) => r.hora === hora && i !== indexEdit);
+const validarHoraDuplicada = (fecha, hora, indexEdit = null) => {
+    return reservas.some((r, i) => r.fecha === fecha && r.hora === hora && i !== indexEdit);
 };
 
 // ========== VALIDACIÓN GENERAL DEL FORMULARIO ==========
@@ -99,14 +100,9 @@ const validarHoraDuplicada = (hora, indexEdit = null) => {
 const validarFormulario = () => {
     const errores = {};
 
-    // Validar nombre
-    if (!validarNombre(inputNombre.value)) {
-        errores.nombre = "Solo letras, mínimo 2 caracteres";
-    }
-
-    // Validar apellido
-    if (!validarNombre(inputApellido.value)) {
-        errores.apellido = "Solo letras, mínimo 2 caracteres";
+    // Validar nombre completo
+    if (!validarNombre(inputNombreCompleto.value)) {
+        errores.nombreCompleto = "Solo letras, mínimo 2 caracteres";
     }
 
     // Validar email
@@ -117,6 +113,14 @@ const validarFormulario = () => {
     // Validar teléfono
     if (!validarTelefonoChileno(inputTelefono.value)) {
         errores.telefono = "Formato: +569XXXXXXXX o 9XXXXXXXX";
+    }
+
+    // Validar fecha
+    const fechaSeleccionada = new Date(inputFecha.value);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    if (fechaSeleccionada < hoy) {
+        errores.fecha = "La fecha no puede ser en el pasado";
     }
 
     // Validar servicios
@@ -182,10 +186,10 @@ const generarHorarios = () => {
  */
 const crearReserva = () => {
     return {
-        nombre: sanitizarInput(inputNombre.value),
-        apellido: sanitizarInput(inputApellido.value),
+        nombreCompleto: sanitizarInput(inputNombreCompleto.value),
         email: sanitizarInput(inputEmail.value),
         telefono: sanitizarInput(inputTelefono.value),
+        fecha: inputFecha.value,
         hora: horaSelect.value,
         servicios: Array.from(document.querySelectorAll(".servicio:checked"))
             .map(s => sanitizarInput(s.value))
@@ -225,7 +229,11 @@ const renderReservas = () => {
 
         // Crear estructura de la tarjeta con elementos seguros
         const nombre = document.createElement("strong");
-        nombre.textContent = `${reserva.nombre} ${reserva.apellido}`;
+        nombre.textContent = reserva.nombreCompleto;
+
+        const fecha = document.createElement("p");
+        fecha.className = "mb-1";
+        fecha.textContent = `📅 ${reserva.fecha}`;
 
         const hora = document.createElement("p");
         hora.className = "mb-1";
@@ -255,6 +263,7 @@ const renderReservas = () => {
         // Agregar elementos a la tarjeta
         card.appendChild(nombre);
         card.appendChild(document.createElement("br"));
+        card.appendChild(fecha);
         card.appendChild(hora);
         card.appendChild(servicios);
         card.appendChild(botones);
@@ -273,10 +282,10 @@ const renderReservas = () => {
 const cargarReservaEnFormulario = (index) => {
     const reserva = reservas[index];
 
-    inputNombre.value = reserva.nombre;
-    inputApellido.value = reserva.apellido;
+    inputNombreCompleto.value = reserva.nombreCompleto;
     inputEmail.value = reserva.email;
     inputTelefono.value = reserva.telefono;
+    inputFecha.value = reserva.fecha;
     horaSelect.value = reserva.hora;
 
     document.querySelectorAll(".servicio").forEach(checkbox => {
@@ -307,8 +316,22 @@ const resetearFormulario = () => {
 horaSelect.addEventListener("change", () => {
     const editIndex = document.querySelector("#editIndex").value;
 
-    if (validarHoraDuplicada(horaSelect.value, editIndex)) {
-        errorHora.textContent = "⚠️ Esta hora ya está reservada";
+    if (validarHoraDuplicada(inputFecha.value, horaSelect.value, editIndex)) {
+        errorHora.textContent = "⚠️ Esta hora ya está reservada para esta fecha";
+        errorHora.className = "text-danger mb-2";
+    } else {
+        errorHora.textContent = "";
+    }
+});
+
+/**
+ * Validación en tiempo real al cambiar fecha
+ */
+inputFecha.addEventListener("change", () => {
+    const editIndex = document.querySelector("#editIndex").value;
+
+    if (validarHoraDuplicada(inputFecha.value, horaSelect.value, editIndex)) {
+        errorHora.textContent = "⚠️ Esta hora ya está reservada para esta fecha";
         errorHora.className = "text-danger mb-2";
     } else {
         errorHora.textContent = "";
@@ -331,8 +354,8 @@ form.addEventListener("submit", (e) => {
 
     // Verificar hora duplicada
     const editIndex = document.querySelector("#editIndex").value;
-    if (validarHoraDuplicada(horaSelect.value, editIndex)) {
-        errorHora.textContent = "⚠️ Esta hora ya está reservada";
+    if (validarHoraDuplicada(inputFecha.value, horaSelect.value, editIndex)) {
+        errorHora.textContent = "⚠️ Esta hora ya está reservada para esta fecha";
         errorHora.className = "text-danger mb-2";
         return;
     }
