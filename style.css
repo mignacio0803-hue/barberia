@@ -128,3 +128,16 @@ footer h5 {
     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     color: #f5f5f5;
 }
+
+/* MENSAJES DE ERROR */
+.error-text {
+    display: block;
+    font-size: 0.875rem;
+    color: #ff4444;
+    margin-top: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(255, 68, 68, 0.1);
+    border-left: 3px solid #ff4444;
+    border-radius: 3px;
+}
+}
