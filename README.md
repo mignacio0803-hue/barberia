@@ -77,8 +77,8 @@ barberia/
 
 ##  Despliegue
 
-* Repositorio en GitHub: *(agregar link aquí)*
-* Página desplegada: *(GitHub Pages u otro)*
+* Repositorio en GitHub: *(https://github.com/mignacio0803-hue/barberia/tree/main)*
+* Página desplegada: *https://mignacio0803-hue.github.io/barberia/#contacto*
 
 ---
 
